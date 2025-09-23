@@ -31,7 +31,7 @@ resource "null_resource" "copy_ec2_keys" {
   connection {
     type        = "ssh"
     host        = aws_eip.bastion_eip.public_ip      
-    user        = "ec2-user"       #user
+    user        = "ubuntu"#"ec2-user"       #user
     password    = ""
     private_key = file("private-key/jenkins-key.pem")     # use key authentification
   }

@@ -25,11 +25,12 @@ resource "aws_security_group_rule" "webserver_allow_all_ssh" {   # to connect on
 resource "aws_security_group_rule" "webserver_allow_all_http" {
   type              = "ingress"
   from_port         = 80
-  to_port           = 80                                     # to connect to the brwoser
+  to_port           = 80                                   # to connect to the brwoser
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.ssh_http_sg.id
 }
+
 
 resource "aws_security_group_rule" "webserver_allow_all_ping" {      # to allow ping
   type              = "ingress"
