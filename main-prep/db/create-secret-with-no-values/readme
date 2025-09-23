@@ -1,0 +1,3 @@
+first create the  secret manager with no data value  ,
+ then add data values and go 
+get value password and username in aws to input in data.tf

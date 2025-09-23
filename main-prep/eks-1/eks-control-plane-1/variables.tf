@@ -1,0 +1,24 @@
+variable "common_tags" {
+  type = map(any)
+  default = {
+    "AssetID"       = "11111"
+    "AssetName"     = "Insfrastructure"
+    "Teams"         = "DEL"
+    "Environment"   = "dev"
+    "Project"       = "pipeline-eks1"
+    "CreateBy"      = "Terraform"
+    "cloudProvider" = "aws"
+  }
+}
+
+variable "eks_version" {
+  type = string
+}
+
+variable "endpoint_private_access" {
+  type = bool
+}
+
+variable "endpoint_public_access" {
+  type = bool
+}

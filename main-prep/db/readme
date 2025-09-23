@@ -1,0 +1,44 @@
+database video 4  2:00
+
+parametre store is for non sensetive date 
+
+secrete manager is to store sensetive data 
+
+join function  2:50 
+
+
+test the database video 5 1:56:31
+
+## Connect through the CLI
+- The default db in postgres is `postgres`
+
+https://www.timescale.com/blog/how-to-install-psql-on-mac-ubuntu-debian-windows/
+```
+psql -h [HOSTNAME] -p [PORT] -U [USERNAME] -W -d [DATABASENAME]
+
+psql --host=bamboo-cicd-db.cv3uwkomseya.us-east-1.rds.amazonaws.com --port=5432 --username=adminuser --password --dbname=bamboo       "from enpoind"                                                 "from aws secret manager"
+
+
+###mine### go paste on git bash   and type \l   and \q to cansel
+psql --host=beta-cicd-db.cbggprguolhn.us-east-1.rds.amazonaws.com --port=5432 --username=harvey --password --dbname=beta
+
+##### connect in the BASTION HOST######  then do  \l enter
+
+beta=> \l
+                                  List of databases
+   Name    |  Owner   | Encoding |   Collate   |    Ctype    |   Access privileges
+-----------+----------+----------+-------------+-------------+-----------------------
+ beta      | harvey   | UTF8     | en_US.UTF-8 | en_US.UTF-8 |
+ postgres  | harvey   | UTF8     | en_US.UTF-8 | en_US.UTF-8 |
+ rdsadmin  | rdsadmin | UTF8     | en_US.UTF-8 | en_US.UTF-8 | rdsadmin=CTc/rdsadmin
+ template0 | rdsadmin | UTF8     | en_US.UTF-8 | en_US.UTF-8 | =c/rdsadmin          +
+           |          |          |             |             | rdsadmin=CTc/rdsadmin
+ template1 | harvey   | UTF8     | en_US.UTF-8 | en_US.UTF-8 | =c/harvey            +
+           |          |          |             |             | harvey=CTc/harvey
+
+
+subdomaine  video 5 2:00 around
+
+create acm ------- resource  video 7  project  tia 52:37 
+
+voideo 7 8:10  around 

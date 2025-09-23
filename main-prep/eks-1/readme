@@ -1,0 +1,11 @@
+#EKS project video 8   19:40 terraform project
+
+# one mistake took me 1/2 day my eks blue-green node was caming out with error that  NOT KEY PAIR FOUND . to figure out that my namekey pair was different.
+ so what i did is i verified the name of my key pair in my aws key pair consol and my local machine , and i replaced it in my code and deployed my eks blue-green node . 
+
+ go paste this in git 
+ ## aws eks update-kubeconfig --name 
+
+ ################# upgrade first on control plane from your terminal#############################
+
+ 

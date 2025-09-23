@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ca-demo-deployment-coubis
+  labels:
+    app: ca-app
+spec:
+  replicas: 2
+  # replicas: 30
+  selector:
+    matchLabels:
+      app: ca-app
+  template:
+    metadata:
+      labels:
+        app: ca-app
+    spec:
+      containers:
+      - name: ca-app
+        image: leonardtia/tia:microservices
+        ports:
+        - containerPort: 80
+        # resources:al
+        #   requests:
+        #     cpu: "200m"       
+        #     memory: "200Mi" 
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ca-demo-service-app
+  labels:
+    app: ca-app
+spec:
+  type: NodePort
+  selector:
+    app: ca-app
+  ports:
+  - port: 80
+    targetPort: 80
+    # nodePort: 31233
+
+
+---   
+#apiVersion: apps/v1
+#kind: ReplicaSet
+#metadata:
+#  name: dummy-replicaset
+#  labels:
+#    app: dummy
+#spec:
+#  replicas: 3
+#  selector:
+#    matchLabels:
+#      app: dummy
+#  template:
+#    metadata:
+#      labels:
+#        app: dummy
+#    spec:
+#      containers:
+#      - name: dummy-container
+#        image: nginx:latest
+#

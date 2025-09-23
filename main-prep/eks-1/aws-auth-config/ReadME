@@ -1,0 +1,544 @@
+after change the cluster name  and init plan and apply ,  
+the type 
+ kubectl get no
+  kubectl describe no ip-10-0-1-187.ec2.internal    video 31:00
+ kubectl get po -n kube-system  OR   kubectl get po -A
+ 
+ kubectl get no -w    to check the node if there are ready 
+
+ kubectl create ns apps     to create name space   and kubens  to check your name space .
+
+ kubectl describe ns apps
+
+kubectl apply -f.     video 27:32   ##### TERRAFORM EKS UPGRADE FROM 1.22 TO 1.23### 
+
+if you face issue , go back on video   EKS cluster control plane ......green node group   
+2:00:00
+
+if tomorrow you wanto upgrate or do something on your nodes (5 for eg)  and the #VERSION STILL DONT CHANGE FROM  EG: 1.22 to 1.26,  you have to flip you node for the upgrate.
+2:11 
+how to do that? 
+
+
+something special that Tia create:   2:27 
+
+
+#######EKS cluster control plane ......green node group........build image and push into ecr #########
+8:00
+if you want to install auto scaler, you must install the ROLE . this role will allow the control plane to create more node on behalf of the control plane.        8:00 
+i have to create the polocy an dattached to that role. other wise it will not work
+
+install cluster auto scaling   helm  34:00 
+
+#######EKS cluster control plane ......green node group........build image and push into ecr #########
+## cluster-autoscaler   45:50 
+```
+kubectl create ns cluster-autoscaler    # in aws-auth-config> kubectl create ns cluster-autoscaler
+
+helm upgrade cluster-autoscaler --install ../../charts/cluster-autoscaler --values cluster-autoscaler.yaml --namespace cluster-autoscaler
+ ---------------------------------install meant that if chart exit , use it if not exit, go aheard and install 
+
+helm uninstall 1:35:27 
+
+###EKS NODE GROUP MODULE  EKS BLUE ########## AND PUSH INTO ecr#####
+
+ ### in order to decommissioning a cluster with an ingress, make sure you delate the ingress before type terraform apply  1:36
+
+ docker ECR  video 1:42  built in terraform and push your image in aws and scan also. 
+
+
+ ##### TERRAFORM EKS UPGRADE FROM 1.22 TO 1.23### 
+
+ Video 18:00 
+
+@@@@ each time you op aws-auth-config, you have to terraform init and apply@@@
+
+kubectl get no
+  kubectl describe no ip-10-0-1-187.ec2.internal    video 31:00
+ kubectl get po -n kube-system  OR   kubectl get po -A    26:12      on all name space
+ 
+ kubectl get no -w    to check the node if there are ready 
+
+ kubectl create ns apps     to create name space
+ kubectl get ns
+
+ kubectl describe ns apps
+ 
+kubectl apply -f.     video 27:32   ##### TERRAFORM EKS UPGRADE FROM 1.22 TO 1.23### 
+ kubectl apply -f . -n app    from s4  video 46:54  terraform .... eks aws csi deriver
+kubectl get po -n kube-system |grep kube-proxy -w  1:10
+
+  ---> export kube confing  24:00 aws auth confing    and apply   then kubens   
+  install kubectlx to check the cluster that you are in now. 
+
+winget install --id ahmetb.kubectx     install kubectlx    24:23 
+winget install --id ahmetb.kubens      install kubens
+
+------> kubectl apply -f.     video 27:32  and see pot that you created (dummy) 
+
+to get the version of the cluster 
+---->  kubectl get daemonset kube-proxy \
+    --namespace kube-system \
+    -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
+    ```
+    kubectl describe daemonset kube-proxy -n kube-system | grep Image | cut -d ":" -f 3
+
+    - Output
+    ```sh
+    602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/kube-proxy:v1.19.6-eksbuild.2
+
+    -----
+    Update , make sure to set the region correctly. This will change the kube-proxy image from 1.19 to 1.20
+    ```sh    1:00  video 
+    kubectl set image daemonset.apps/kube-proxy -n kube-system kube-proxy=602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/kube-proxy:v1.23.16-eksbuild.2
+    ```
+    - Verify if the kube-proxy pods are running in kube-system ns
+    ```
+    kubectl get po -n kube-system |grep kube-proxy
+    -------
+
+---------> create namespace and switch in that namespace  26:50  aws auth config ------------>
+k create ns app 
+kubens    to check that ns 
+switch  kubens app   then kgp you should have no pod
+kubectl apply -f.  
+
+
+########little part of cluster upgrate  1:35
+
+
+set up alias Tia 25:40
+kubectl version
+kubectl get all
+     NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   172.20.0.1   <none>        443/TCP   86m
+
+
+1 List the available namespaces
+kubectl get namespaces
+2 Identify the namespace you want to switch to from the list.
+
+3 Set the current context to the desired namespace:
+
+kubectl config set-context --current --namespace=<namespace-name>
+
+Replace <namespace-name> with the name of the namespace you want to switch to.
+
+Verify the namespace switch:
+
+kubectl config view --minify | grep namespace:
+kubectl apply -f.   26:00  i could not deploy on mt name space need help. 
+#######################################################################################
+
+## s4  terraform eks blue and green node terraform eks upgrade process
+
+
+in order to upgrate your cluster, 
+1 lunch vpc                                     ok
+2 lunch control node                            ok
+3 lunch blue green node                         ok
+#########################lunch aws-auth-config on your terminal and work in there ###################
+   - lunch aws-auth-cong   to expote the kube config . ok 
+   - check   kubens, kubectl get no
+   - kubectl get po -A     to all ns. 
+4 check no and po if ready                        ok 
+5 create new ns       "kubectl create ns apps       ok
+  - check whit "kubens" 
+6 switch on that new ns  "kubens apps"  
+7 check id po available ( should not) 
+8 open new intergrator terminal (cluster-auto-scaler) to put load if cluster does not have load yet. 
+  - "kubectl apply -f."     ok
+  - check  "kubectl get po" AND "kubectl get po -A"  ok
+
+##### - op new integrator terminal (aws auth config ) to export kube config' then terraform apply to deploy the no. (24:10)
+##### - kuctlx  to check the cluster you are curently in . 24:22
+#####   - kubectl create ns apps   
+#####   - kubectl get ns
+#####   - kubectl get no 
+#####   - kubectl get po -A 
+#####   - kubens apps  
+##### now deploy load in the cluste for test purpose   27:25 
+#####   - mvt in manifest terminal you want to deploy (auto scaler cluster)
+#####     kubectl apply -f .
+#####     kubectl get po 
+#####     kubectl get po -A    
+#####     kubectl get po - w 
+  @@@1@@@@@
+
+  ############### 9-Step 01: Upgrade the control plane  FROM X.XX TO X.XX###############
+
+========= before upgrade the cluster, check the state , inspect the cluster 40:56 ========================
+   -- op 2  new terminal (git bash)
+     = "kubectl get po -A"    ( on the first terminal) make sure pods are ready
+            cd in my Documents/
+              - mkdir  eks1.25-prove/ 
+              - cd eks1.25-prove/  and  kubectl get po -A
+              - kubectl get po -A > cluster1.25pods.txt
+              - cat cluster1.25pods.txt    you should see you prove of pods in the file and in you documents.
+           
+     = "kubectl get no"       (on the second terminal) make sure pods are ready 
+          cd in my Documents/
+          mkdir  eks1.25-no-prove/
+          cd  eks1.25-no-prove/  and do kubectl get no 
+          kubectl get no > cluster1.25nodes.txt   then do ls  
+          cat cluster1.25nodes.txt            you should see you prove of no in the file and in you documents.
+
+   NOWWWW WE CAN GO AND UPGRADE THE CONTROL PLAN##################
+
+Set EKS control plane to version 1.25 in terraform resource for eks control plan, 
+Run terraform plan
+Apply the changes
+You can verify progress in the AWS console , cluster should be marked as updating
+DONT WORK IN THE MASTER BRANCH , YOU HAVE TO CHECK OUT THE MASTER BRANCH.
+
+
+@@@@2@@@@
+Make sure to match version listed in chart on the AWS upgrade doc, example below is from version 1.19 to version 1.20
+get the current version 
+ kubectl describe daemonset kube-proxy -n kube-system | grep Image | cut -d ":" -f 3
+out put is 
+v1.24.7-minimal-eksbuild.2
+ or
+Verify
+kubectl get daemonset kube-proxy \
+--namespace kube-system \
+-o=jsonpath='{$.spec.template.spec.containers[:1].image}'
+
+Output
+602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/kube-proxy:v1.24.7-minimal-eksbuild.2
+
+new version  on 1.25     v1.25.14-minimal-eksbuild.2
+
+----> 602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/kube-proxy:v1.25.14-minimal-eksbuild.2
+
+do this before you update kube-proxy version 
+  - create ns " kubens kube-system"    then kubens
+              or  you do kubectl get po -A -w       it will watch the update on git bash terminal. 
+               
+   now apply this cmd            
+cmd to update.   to paste in gitbash for update                          aws account                                                   new version 1.25
+"kubectl set image daemonset.apps/kube-proxy -n kube-system kube-proxy=602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/kube-proxy:v1.25.14-minimal-eksbuild.2"
+
+now go and recheck the new kube proxy version updeted
+
+$ kubectl describe daemonset kube-proxy -n kube-system | grep Image | cut -d ":" -f 3
+output
+v1.25.14-minimal-eksbuild.2
+
+
+ kubectl get daemonset kube-proxy \
+--namespace kube-system \
+-o=jsonpath='{$.spec.template.spec.containers[:1].image}'
+output
+602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/kube-proxy:v1.25.14-minimal-eksbuild.2
+
+
+Verify if the kube-proxy pods are running in kube-system ns
+kubectl get po -n kube-system |grep kube-proxy 
+
+####################################        3 step  1:12:00 around 
+Step 03: Patch CoreDNS
+Check the image version for each Amazon EKS supported cluster version
+Patch CoreDNS, make sure to match version listed on the AWS upgrade doc, example below is from version 1.24 to version 1.25
+Verify (Check the CoreDNS version)
+
+kubectl describe deployment coredns \
+--namespace kube-system \
+| grep Image \
+| cut -d "/" -f 3
+Output:
+coredns:v1.8.7-eksbuild.3
+
+Update the CoreDNS (make sure to set the region correctly)
+kubectl set image --namespace kube-system deployment.apps/coredns \
+coredns=602401143452.dkr.ecr.[region_name].amazonaws.com/eks/coredns:v1.8.3-eksbuild.1
+
+kubectl set image --namespace kube-system deployment.apps/coredns \
+coredns=602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/coredns:v1.9.3-eksbuild.7
+
+now check the version is correct 
+kubectl describe deployment coredns \
+--namespace kube-system \
+| grep Image \
+| cut -d "/" -f 3
+
+
+Edit the cluster role and add the below content at the end if it does not exist
+kubectl edit clusterrole system:coredns -n kube-system
+- apiGroups:
+- discovery.k8s.io
+resources:
+- endpointslices
+verbs:
+- list
+- watch
+Verify if the coredns pods are running in kube-system ns
+kubectl get po -n kube-system |grep coredns
+
+@@@@4@@@@@ 1:25 around  
+
+Step 04: Patch AWS CNI
+Check the image version for each Amazon EKS supported cluster version. VPC CNI Github release version
+Patch AWS CNI, make sure to match version listed in chart on the AWS upgrade doc , example below is from version 1.19 to version 1.20
+Verify (Check the AWS CNI version)
+kubectl describe daemonset aws-node --namespace kube-system | grep Image | cut -d "/" -f 2
+Example output:
+amazon-k8s-cni-init:v1.11.4-eksbuild.1
+amazon-k8s-cni:v1.11.4-eksbuild.1
+
+new  for 1.25
+v1.15.1-eksbuild.1
+
+put this v1.15.1on  296 
+
+Download the image with the your version
+curl -O https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/[YOU_VERSION]/config/master/aws-k8s-cni.yaml
+
+ curl -O https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.15.1/config/master/aws-k8s-cni.yaml
+
+do 
+  cat aws-k8s-cni.yaml
+then check the region
+ cat aws-k8s-cni.yaml |grep us-
+  output 
+   image: 602401143452.dkr.ecr.us-west-2.amazonaws.com/amazon-k8s-cni-init:v1.15.1
+          image: 602401143452.dkr.ecr.us-west-2.amazonaws.com/amazon-k8s-cni:v1.15.1
+          image: 602401143452.dkr.ecr.us-west-2.amazonaws.com/amazon/aws-network-policy-agent:v1.0.4
+
+
+Set Region to where your cluster is   my is in  us-east-1
+
+sed -i.bak -e 's/us-west-2/[region-code]/' aws-k8s-cni.yaml
+
+sed -i.bak -e 's/us-west-2/us-east-1/' aws-k8s-cni.yaml
+check again 
+cat aws-k8s-cni.yaml |grep us-
+output 
+ image: 602401143452.dkr.ecr.us-east-1.amazonaws.com/amazon-k8s-cni-init:v1.15.1
+          image: 602401143452.dkr.ecr.us-east-1.amazonaws.com/amazon-k8s-cni:v1.15.1
+          image: 602401143452.dkr.ecr.us-east-1.amazonaws.com/amazon/aws-network-policy-agent:v1.0.4
+
+
+Apply the change  yaml
+kubectl apply -f aws-k8s-cni.yaml
+then check on your two terminal git bash    kubectl get po -A -w 
+
+Check the version again
+kubectl describe daemonset aws-node --namespace kube-system | grep Image | cut -d "/" -f 2
+Check pods
+kubectl get daemonset aws-node -n kube-system
+
+
+
+@@@@@flip node@@@@@
+Flip the nodes
+kubectl get no 
+then
+kubectl describe no ip-10-0-1-242.ec2.internal
+
+
+Check node with labels
+  # kubectl get no -l deployment_nodegroup=blue_green
+   out put 
+   ip-10-0-1-242.ec2.internal   Ready    <none>   10h   v1.24.17-eks-43840fb
+ip-10-0-1-32.ec2.internal    Ready    <none>   10h   v1.24.17-eks-43840fb
+ip-10-0-2-19.ec2.internal    Ready    <none>   10h   v1.24.17-eks-43840fb
+ip-10-0-2-44.ec2.internal    Ready    <none>   10h   v1.24.17-eks-43840fb
+
+use this if jq have been installed
+
+Check if node are tainted  use this cmd if  jq have been installed in you server
+kubectl get nodes -o json | jq '.items[] | .metadata.name, .spec.taints'
+
+## OR   this worked 2:00 around
+for kube_node in $(kubectl get nodes | awk '{ print $1 }' | tail -n +2); do
+    echo ${kube_node} $(kubectl describe node ${kube_node} | grep Taint);
+done
+out put 
+ip-10-0-1-242.ec2.internal Taints: <none>
+ip-10-0-1-32.ec2.internal Taints: <none>
+ip-10-0-2-19.ec2.internal Taints: <none>
+ip-10-0-2-44.ec2.internal Taints: <none>
+
+if you see <none> at the end mean that no taint
+
+kubectl get no -l  deployment_nodegroup=blue_green |awk -F " " '{print$1}'
+out put 
+ip-10-0-1-242.ec2.internal
+ip-10-0-1-32.ec2.internal
+ip-10-0-2-19.ec2.internal
+ip-10-0-2-44.ec2.internal 
+
+
+Taint the current nodes in the cluster ====> HERE
+## Taint (gpu can be anything)
+kubectl taint nodes [NODE_NAME]  gpu=true:NoSchedule
+
+kubectl taint nodes ip-192-168-62-62.ec2.internal gpu=true:NoSchedule
+
+kubectl taint nodes ip-10-0-1-242.ec2.internal gpu=true:NoSchedule
+kubectl taint nodes ip-10-0-1-32.ec2.internal gpu=true:NoSchedule
+kubectl taint nodes ip-10-0-2-19.ec2.internal gpu=true:NoSchedule
+kubectl taint nodes ip-10-0-2-44.ec2.internal gpu=true:NoSchedule
+ out put 
+ node/ip-10-0-1-242.ec2.internal tainted
+node/ip-10-0-1-32.ec2.internal tainted
+node/ip-10-0-2-19.ec2.internal tainted
+node/ip-10-0-2-44.ec2.internal tainted
+
+
+## Untaint (gpu can be anything)
+kubectl taint nodes [NODE_NAME]  gpu=true:NoSchedule-
+kubectl taint nodes ip-192-168-92-254.ec2.internal gpu=true:NoSchedule-
+
+Launch a new node group in cluster
+In the node group, change the eks version to match the controle plane version
+Apply the changes to create a new node group
+Wait still the nodes join the cluster
+
+   to lunch new node, go in terraform eks-blue-green-node  then terraform.tfvars  and make sure both blue and green are true. and change the version to 1.25
+   then  do terraform apply  
+
+                  tag node  2:18:23 
+                  terraform plan --target=aws_node_groupe.green-nodes
+   to avoid any disruption of another group of node, i can tag the nodes that i want to lunch   2:18:23 
+
+Drain the all nodes
+kubectl drain [NODE_NAME] --ignore-daemonsets=false --force  --delete-local-data
+
+kubectl drain ip-192-168-92-254.ec2.internal --ignore-daemonsets=false --force  --delete-local-data
+kubectl drain ip-192-168-62-62.ec2.internal --ignore-daemonsets=false --force  --delete-local-data
+Shutdown the old node group through terraform
+notes
+v1.22.6-eksbuild.1
+v1.23.16-eksbuild.2
+
+kubectl set image daemonset.apps/kube-proxy -n kube-system kube-proxy=602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/kube-proxy:v1.23.16-eksbuild.2
+
+v1.8.7-eksbuild.4
+kubectl set image --namespace kube-system deployment.apps/coredns \
+coredns=602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/coredns:v1.8.7-eksbuild.4
+
+v1.10.1-eksbuild.1
+v1.12.6-eksbuild.1
+
+
+kubectl taint nodes [NODE_NAME]  gpu=true:NoSchedule
+kubectl taint nodes ip-192-168-62-62.ec2.internal gpu=true:NoSchedule
+
+kubectl taint nodes ip-10-0-1-242.ec2.internal gpu=true:NoSchedule
+kubectl taint nodes ip-10-0-1-32.ec2.internal gpu=true:NoSchedule
+kubectl taint nodes ip-10-0-2-19.ec2.internal gpu=true:NoSchedule
+kubectl taint nodes ip-10-0-2-44.ec2.internal gpu=true:NoSchedule
+ out put 
+ node/ip-10-0-1-242.ec2.internal tainted
+node/ip-10-0-1-32.ec2.internal tainted
+node/ip-10-0-2-19.ec2.internal tainted
+node/ip-10-0-2-44.ec2.internal tainted
+
+
+ kubectl get no -l  deployment_nodegroup=blue_green |grep 1.24
+ kubectl get no -l  deployment_nodegroup=blue_green |grep 1.25
+
+ Drain the all nodes
+```sh
+kubectl drain [NODE_NAME] --ignore-daemonsets=false --force  --delete-local-data
+                                                                            --delete-emptydir-data.
+kubectl drain ip-10-0-1-156.ec2.internal   --ignore-daemonsets=true --force  --delete-local-data
+kubectl drain ip-10-0-1-68.ec2.internal --ignore-daemonsets=true --force  --delete-local-data
+kubectl drain ip-10-0-2-16.ec2.internal --ignore-daemonsets=true --force  --delete-local-data
+kubectl drain ip-10-0-2-232.ec2.internal --ignore-daemonsets=true --force  --delete-local-data
+
+
+################## ########### ##################### #################::#endregion
+EKS Upgrade Steps
+We have 5 steps:
+
+1  Upgrade the Control Plane   39 :00 
+Patch kubeproxy            57:00    # to check version    kubectl describe daemonset kube-proxy -n kube-system | grep Image | cut -d ":" -f 3   or 
+   
+Patch CoreDNS 
+Patch AWS CNI
+Flip the nodes
+
+kubectl taint nodes ip-10-0-1-64.ec2.internal gpu=true:NoSchedule
+kubectl taint nodes ip-10-0-2-240.ec2.internal gpu=true:NoSchedule
+kubectl taint nodes ip-10-0-2-65.ec2.internal gpu=true:NoSchedule 
+
+
+
+kubectl get no -l deployment_nodegroup=blue_green |grep 1.22
+ kubectl get no -l deployment_nodegroup=blue_green |grep 1.23 
+-----drain the node  2:23 
+
+
+########################################################################################
+Tia explain the blue green upgrateing mechnanisim
+
+s4  terraform eks blue and green node terraform eks upgrade process   video around 04:30 
+
+blue  green macanizim in upgrading eks cluster to avoid down time : mean that 
+--------> we  use two nodes blue  and green 
+------> cluster with BLUE or green node  always run with work load 
+------> blue up and running with work load     and we want to upgrade the cluster. and we dont want stop the cluster or shut down
+-----> the green is not running but on the same version as blue  eg:  1.22
+
+___ > so 1 we upgrade the control plane attached on the current running cluster (blue ) from 1.22 to  1.23,   but the node group remain on 1.22 
+
+NOW  the blue green mechnanisme will double the number of nodes on the green  now we can move all the node on blue  to green  so we have now double node on green 
+and now we taint all the node and drain nodes on blue . and all work node will run on green . 
+
+
+
+__________________________________________________
+scalling config explaination    s4  terraform eks blue and green node terraform eks upgrade process   25:00 around  
+
+scaling_config {
+    desired_size = var.green_node_color == "green" && var.green ? var.desired_node : 0
+    min_size     = var.green_node_color == "green" && var.green ? var.node_min : 0
+    max_size     = var.green_node_color == "green" && var.green ? var.node_max : var.node_max
+  }
+
+
+  scaling_config {
+    desired_size = var.blue_node_color == "blue" && var.blue ? var.desired_node : 0
+    min_size     = var.blue_node_color == "blue" && var.blue ? var.node_min : 0
+    max_size     = var.blue_node_color == "blue" && var.blue ? var.node_max : var.node_max
+  }
+
+variable "node_min" {
+  type    = string
+  default = "1"
+}
+
+variable "desired_node" {
+  type    = string
+  default = "2"
+}
+
+variable "node_max" {
+  type    = string
+  default = "2"
+}
+
+variable "blue_node_color" {
+  type    = string
+  default = "blue"
+}
+
+variable "green_node_color" {
+  type    = string
+  default = "green"
+}
+
+variable "blue" {
+  type    = bool
+  default = false
+}
+
+variable "green" {
+  type    = bool
+  default = false
+}
+
+  

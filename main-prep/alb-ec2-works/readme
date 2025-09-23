@@ -1,0 +1,10 @@
+difference  LB and ingress?
+cant not upgrate cluster from 1.17 to 1.21  you have to follow the update version
+
+create aws certificate  for the ABL.    video 7 50:00  around 
+
+test load balancer  2:36:37
+
+
+load balancer  
+# video 7  terraform project   1:24:17 
