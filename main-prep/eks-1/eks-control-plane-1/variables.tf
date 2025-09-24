@@ -1,7 +1,7 @@
 variable "common_tags" {
   type = map(any)
   default = {
-    "AssetID"       = "11111"
+    "AssetID"       = "123"
     "AssetName"     = "Insfrastructure"
     "Teams"         = "DEL"
     "Environment"   = "dev"

@@ -6,7 +6,7 @@ variable "aws_region" {
 variable "common_tags" {
   type = map(any)
   default = {
-    "AssetID"       = "11111"
+    "AssetID"       = "123"
     "Environment"   = "dev"
     "Project"       = "pipeline-eks1"
     "CreateBy"      = "Terraform"
@@ -16,7 +16,7 @@ variable "common_tags" {
 
 variable "eks_version" {
   type    = string
-  default = "1.25"
+  default = "1.31"
 }
 
 variable "node_min" {
@@ -57,7 +57,7 @@ variable "green" {
 variable "ec2_ssh_key" {
   type        = string
   description = "SSH key to connect to the node from bastion host"
-  default     = "terraform-key"
+  default     = "jenkins-key.pem"
 }
 
 variable "deployment_nodegroup" {

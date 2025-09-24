@@ -6,7 +6,7 @@ variable "aws_region" {
 variable "common_tags" {
   type = map(any)
   default = {
-    "AssetID"       = "11111"
+    "AssetID"       = "123"
     "Environment"   = "dev"
     "Project"       = "pipeline"
     "CreateBy"      = "Terraform"

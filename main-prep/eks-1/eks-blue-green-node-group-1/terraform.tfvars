@@ -1,14 +1,14 @@
 aws_region = "us-east-1"
 
 common_tags = {
-  "AssetID"       = "11111"
+  "AssetID"       = "123"
   "Environment"   = "dev"
   "Project"       = "pipeline-eks1"
   "CreateBy"      = "Terraform"
   "cloudProvider" = "aws"
 }
 
-eks_version  = "1.25"
+eks_version  = "1.31"
 node_min     = "1"
 desired_node = "1"
 node_max     = "1"
